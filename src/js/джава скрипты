@@ -218,3 +218,33 @@ $(".feedback").submit(function() {
 
 $(".goverment-portals-section__item").equalHeights();
 
+12) Lazyload чтобы не прыгал текст при загрузке стр (у img width=100%)
+
+   //$("img.lazy").lazyload();
+
+   //--------------------------------------------------------------------------------------------------------
+    var lazyLoadInsrance = new LazyLoad({
+      elements_selector: ".lazy"
+   });
+
+   //<img class="lazy" data-original="img/example.jpg" width="765" height="574">
+   //<img class="lazy" src="img/example-thumb.jpg" data-original="img/example.jpg" width="765" height="574">
+   //
+   //<img src="data:image/png;base64,KKDFJL3J3RWL=" data-src="img/original.jpg" alt="Image" (width="765" height="574")>  -- используй это
+   
+
+   // $('body').fadeOut();
+   //--------------------------------------------------------------------------------------------------------
+
+13) Маски для тлф номеров и не только
+
+   //--------------------------------------------------------------------------------------------------------
+   //$("#date").mask("99/99/9999");
+   $("#phone").mask("+7 (999) 999-99-99",{completed:function(){alert("You typed the following: "+this.val());}});
+   //$("#tin").mask("99-9999999");
+   //$("#product").mask("99/99/9999",{placeholder:" "});
+   //,{completed:function(){alert("You typed the following: "+this.val());}}
+
+   //--------------------------------------------------------------------------------------------------------
+
+

@@ -3,8 +3,8 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     browserSync = require('browser-sync'),
     concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
-    cssnano = require('gulp-cssnano'),
+//    uglify = require('gulp-uglify'),
+    terser = require('gulp-terser'),
     rename = require('gulp-rename'),
     del = require('del'),
     imagemin = require('gulp-imagemin'),
@@ -13,7 +13,7 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     cleanCSS = require('gulp-clean-css'),
     gulpPug = require('gulp-pug'),
-    gulpPlumber = require('gulp-plumber'),
+//    gulpPlumber = require('gulp-plumber'),
     notify = require("gulp-notify");
 
 // прописываем путь до sass папок библиотек --- сейчас подлключаем scss Bootstrap4 из папочки libs
@@ -36,9 +36,9 @@ const paths = {
         pugWatch: 'src/pug/**/*.pug',
         js: 'src/js/**/*.js',
         jsLib: [
-            	'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery/dist/jquery.min.js',
    	        'node_modules/magnific-popup/dist/jquery.magnific-popup.min.js',
-            	'node_modules/owl.carousel/dist/owl.carousel.min.js',
+            'node_modules/owl.carousel/dist/owl.carousel.min.js',
    	        'node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js',
    	        'node_modules/jquery-mousewheel/jquery.mousewheel.js',
    	        'node_modules/waypoints/lib/noframework.waypoints.min.js',
@@ -47,7 +47,10 @@ const paths = {
    	        'node_modules/kbw-countdown/dist/js/jquery.countdown.min.js',
    	        'node_modules/kbw-countdown/dist/js/jquery.countdown-ru.js',
    	        'node_modules/superfish/dist/js/superfish.min.js',
-   	        'node_modules/jquery.mmenu/dist/jquery.mmenu.all.js',
+            'node_modules/mmenu-js/dist/mmenu.js',
+            'src/libs/lazyload.min.js',
+//            'node_modules/lazyload/lazyload.js',
+            'node_modules/jquery.maskedinput/src/jquery.maskedinput.js',
   	        'src/libs/animate-css.js',
    	        'src/libs/landing-nav/navigation.js' //кастомный "библиотек" подключаем из папки
 //		'src/libs/drawfillsvg.min.js'//кастомный "библиотек" подключаем из папки
@@ -91,7 +94,7 @@ gulp.task('sass', function() {
 gulp.task('scripts_lib', function() {
     return gulp.src(paths.src.jsLib)
     .pipe(concat('libs.min.js'))
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(gulp.dest('src/js'))    //сразу записывваем только в src, потом в gulp.task('scripts') складываем с common.js в один файл
 });
 
@@ -188,7 +191,7 @@ gulp.task('watch', function() {
     gulp.watch(paths.src.sass, gulp.parallel('sass')); //следим за sass
     gulp.watch(paths.src.pugWatch, gulp.series('cleanCode','code'));    //следим за за всеми pug. При изменении любого pug удаляется index.html в папке dist, потом из src/pug index.pug по-новому собирается (с учетом измененного файла) в dist/ index.html
     gulp.watch(paths.src.js, gulp.parallel('scripts')); //следим за js
-    gulp.watch(paths.src.fonts, gulp.series('cleanFonts', 'fonts'));//следим за fonts, при изменении сначала удаляем всю папку в dist, потом перегосим из src
+    gulp.watch(paths.src.fonts, gulp.series('cleanFonts', 'fonts'));//следим за fonts, при изменении сначала удаляем всю папку в dist, потом переносим из src
     gulp.watch(paths.src.img, gulp.series('cleanImg', 'img'));//следим за img, при изменении сначала удаляем всю папку в dist, потом перегосим из src
 //    gulp.watch([paths.src.sass, paths.src.html, paths.src.js], gulp.parallel('build'));
 });
